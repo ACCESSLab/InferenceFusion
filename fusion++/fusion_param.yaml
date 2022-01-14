@@ -1,0 +1,37 @@
+dataset:
+  cityperson: 
+    image: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/fusion/groundTruth/CityPersons/val_img/'
+    label: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/fusion/groundTruth/CityPersons/val_txt/'
+    networks:
+      Cascade_Mask_R-CNN_HRNet: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/cascade_hrnet/'
+      Cascade_Mask_R-CNN_MobileNet: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/cascade_mobilenet/'
+      CSP: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/csp/'
+      MGAN: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/mgan/'
+      ssd_mobilenet_v1: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/ssd_mobilenet_v1/'
+      ssd_mobilenet_fpn: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/ssd_mobilenet_fpn/'
+      faster_rcnn_inception_v2: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/faster_rcnn_v2/'
+      YOLO_v5: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/CityPersons/original/yolo/'
+    semantic_map:
+      SegFormer: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_seg_fromer_CityPesrsons.pkl'
+      DDRNet: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_ddrnet_citypersons.pkl'
+      FCHarDNet: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_hardnet_CityPersons.pkl'
+      Pix2PixGAN: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_pix2pix_citypersons.pkl'
+  greensboro:
+    image: '/home/mashuk2/Desktop/ITS_all_data/img/test1/'
+    label: '/home/mashuk2/Desktop/ITS_all_data/ground-truth/'
+    networks:
+      Cascade_Mask_R-CNN_HRNet: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/cascade_hrnet/'
+      Cascade_Mask_R-CNN_MobileNet: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/cascade_mobilenet/'
+      CSP: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/csp/'
+      MGAN: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/mgan/'
+      ssd_mobilenet_v1: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/ssd_mobilenet_v1/'
+      ssd_mobilenet_fpn: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/ssd_mobilenet_fpn/'
+      faster_rcnn_inception_v2: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/faster_rcnn_v2/'
+      YOLO_v5: '/home/mashuk2/Desktop/ITS_benchmark/InferenceFusion/results/GBD/original/yolo/'
+    semantic_map:
+      SegFormer: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_seg_fromer_greensboro.pkl'
+      DDRNet: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_ddrnet_greensboro.pkl'
+      FCHarDNet: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_hrdnet_greensboro.pkl'
+      Pix2PixGAN: '/home/mashuk2/Desktop/ITS_benchmark/semantic-segmentation/semantic-segmentation/all_pkl_files/sem_map_pix2pix_greensboro.pkl'
+
+    
