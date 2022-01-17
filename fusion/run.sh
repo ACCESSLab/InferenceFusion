@@ -17,7 +17,7 @@ docker_pedestron()
     # result_demo is the output directory of joint detection 
     # /pedestron/pretrain_model is the object detectors' pretrained weights directory 
     # supported detectors are cascade_hrnet, cascade_mobilenet, csp, mgan
-    docker run --gpus '"device=0,1,3"'  --shm-size=8g -d --rm --name pedestron \
+    docker run --gpus '"device=0"'  --shm-size=8g -d --rm --name pedestron \
         --ipc=host --net=host\
         -v "$(pwd)/detect.sh":/pedestron/detect.sh \
         -v "$(pwd)/$DATASET":/pedestron/data \
@@ -37,7 +37,7 @@ conda_pix2pix()
     # make sure you configure pix2pix gan properly and use the python which is configured for the pix2pix GAN 
     PYTHON="/home/redwan/anaconda3/envs/Pix2PixGAN/bin/python"
     # note that we use GPU id 0, 1, 3 for the object detection branch and GPU id 2 for the semantic segmentation branch
-    sudo CUDA_VISIBLE_DEVICES=2 $PYTHON demo_fusion.py \
+    sudo CUDA_VISIBLE_DEVICES=1 $PYTHON demo_fusion.py \
     --dataset $DATASET\
     --model "../semantics/pretrained_models/checkpoints/pretrained/pix2pix/weight_pix2pix_cityscape.h5"
 }
