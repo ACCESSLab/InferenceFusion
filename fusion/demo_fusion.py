@@ -14,6 +14,7 @@ from queue import Queue
 from threading import Thread
 from copy import deepcopy
 import logging
+import argparse
 
 np.random.seed(2020198875)
 
@@ -119,9 +120,13 @@ class AsyncDetection(Thread):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Pix2PixGAN Semantic Segmentation.')
+    parser.add_argument('--dataset', type=str, help='test data directory')
+    parser.add_argument('--model', type=str, help='pretrained weight for pix2pix gan')
     # config pix2pix gan
-    dataset = "/home/redwan/PyDev/Pedestron/data"
-    model = PixNdPixGAN("/home/redwan/PyDev/Pix2PixGAN/newmodel.h5")
+    args = parser.parse_args()
+    dataset = args.dataset
+    model = PixNdPixGAN(args.model)
     fileIdentifier = {}
     for filename in Path(dataset).glob('*.*'):
         nameId = int(re.findall(r'(\d+)', os.path.basename(filename.name))[0])
