@@ -73,7 +73,9 @@ def run_detector_on_dataset():
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     # print(input_dir)
-    eval_imgs = glob.glob(os.path.join(input_dir, '*.png'))
+    png_eval_imgs = glob.glob(os.path.join(input_dir, '*.png'))
+    jpg_eval_imgs = glob.glob(os.path.join(input_dir, '*.jpg'))
+    eval_imgs = list(png_eval_imgs) + list(jpg_eval_imgs)
     # print(eval_imgs)
     print("[+] total images = %d at %s " %(len(eval_imgs), input_dir))
 
