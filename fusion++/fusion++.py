@@ -119,6 +119,54 @@ def new_score2(mask, bb, score):
     prob = (M + N) / Area  # normalize the score
     return min(prob, 1.0)
 
+# Malisiewicz et al.
+def non_max_suppression_fast(boxes, overlapThresh):
+	# if there are no boxes, return an empty list
+	if len(boxes) == 0:
+		return []
+	# if the bounding boxes integers, convert them to floats --
+	# this is important since we'll be doing a bunch of divisions
+	if boxes.dtype.kind == "i":
+		boxes = boxes.astype("float")
+	# initialize the list of picked indexes	
+	pick = []
+	# grab the coordinates of the bounding boxes
+	x1 = boxes[:,0]
+	y1 = boxes[:,1]
+	x2 = boxes[:,2]
+	y2 = boxes[:,3]
+	# compute the area of the bounding boxes and sort the bounding
+	# boxes by the bottom-right y-coordinate of the bounding box
+	area = (x2 - x1 + 1) * (y2 - y1 + 1)
+	idxs = np.argsort(y2)
+	# keep looping while some indexes still remain in the indexes
+	# list
+	while len(idxs) > 0:
+		# grab the last index in the indexes list and add the
+		# index value to the list of picked indexes
+		last = len(idxs) - 1
+		i = idxs[last]
+		pick.append(i)
+		# find the largest (x, y) coordinates for the start of
+		# the bounding box and the smallest (x, y) coordinates
+		# for the end of the bounding box
+		xx1 = np.maximum(x1[i], x1[idxs[:last]])
+		yy1 = np.maximum(y1[i], y1[idxs[:last]])
+		xx2 = np.minimum(x2[i], x2[idxs[:last]])
+		yy2 = np.minimum(y2[i], y2[idxs[:last]])
+		# compute the width and height of the bounding box
+		w = np.maximum(0, xx2 - xx1 + 1)
+		h = np.maximum(0, yy2 - yy1 + 1)
+		# compute the ratio of overlap
+		overlap = (w * h) / area[idxs[:last]]
+		# delete all indexes from the index list that have
+		idxs = np.delete(idxs, np.concatenate(([last],
+			np.where(overlap > overlapThresh)[0])))
+	# return only the bounding boxes that were picked using the
+	# integer data type
+	return pick # boxes[pick].astype("int")
+  
+
 
 class FusionData:
 
@@ -130,6 +178,7 @@ class FusionData:
         self.filename = self.gt[0].filename
         self.ft = deepcopy(self.dt)
         self.update()
+        self.non_max_suppression(iou_thres = args.nms_iou)
 
     def update(self):
         for i, dt in enumerate(self.dt):
@@ -156,8 +205,18 @@ class FusionData:
             file.write(str(self))
 
     def save_image(self, img_path):
-        image = show_result(self)
+        image = show_result(self, False)
         cv2.imwrite(img_path, image)
+
+    def non_max_suppression(self, conf_thres = 0.5, iou_thres = 0.6):
+        # https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
+        ft = list(filter(lambda x: x.conf >= conf_thres, self.ft))
+        boxes = np.array([x.box for x in ft])
+        picks = non_max_suppression_fast(boxes, iou_thres)
+
+        self.ft = [ft[p] for p in picks]
+
+
 
 
 # file manager starts from here
@@ -239,7 +298,7 @@ async def execute_fuse_file(file):
         fused_data.save_image(file.out_img_file)
 
     await asyncio.sleep(0.0001)
-    print('[+] fusion result computed', fused_data.filename)
+    if args.verbose: print('[+] fusion result computed', fused_data.filename)
 
 
 class TaskManager(multiprocessing.Process):
@@ -259,6 +318,8 @@ if __name__ == '__main__':
     parser.add_argument('--label_dir', type=str, default='data/GBD/label/')
     parser.add_argument('--img_dir', type=str, default='data/GBD/img/')
     parser.add_argument('--out_dir', type=str, default='data/GBD/ssd_mobilenet_fpn/')
+    parser.add_argument('--nms_iou', type=float, default=0.6)
+    parser.add_argument('--verbose', type=bool, default=False)
     parser.add_argument('--save_img', action='store_true', help='will save image if this argument is provided')
 
     args = parser.parse_args()
