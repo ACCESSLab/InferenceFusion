@@ -75,8 +75,8 @@ Inference fusion can be evaluated on sample images in the following way
     cd fusion && ./run.sh 
 ```
 This will run pix2pixGAN and MGAN parallely. We need to ensure availability of two GPUs.
-In our case, we have 4 GPUs setup and the docker container uses __0,1,3__ GPUs and Pix2PixGAN 
-uses GPUs 2. We can change the GPU using __CUDA_VISIBLE_DEVICES=2__
+In our case, we have 2 GPUs setup and the docker container uses __0__ GPUs and Pix2PixGAN 
+uses GPUs 1 such that __CUDA_VISIBLE_DEVICES=1__
 ## Dataset Pre-trained weights
 * Renamed [CityPersons](https://bit.ly/3rdugKq) test dataset.
 * [Greensboro](https://bit.ly/3GpTtaS) Dataset
