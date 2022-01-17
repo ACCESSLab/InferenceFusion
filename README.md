@@ -57,6 +57,7 @@ project
 * [TensorFlow Model Garden](https://github.com/tensorflow/models)
 * [RetinaNet](https://github.com/fizyr/keras-retinanet)
 * [semantic-segmentation](https://github.com/sithu31296/semantic-segmentation)
+* [Pix2PixGAN](https://machinelearningmastery.com/how-to-develop-a-pix2pix-gan-for-image-to-image-translation/)
 * [SharedArray](https://pypi.org/project/SharedArray/)
 ### Build Object Detection Branch 
 Navigate to detectors folder and run the __install.sh__ file.
