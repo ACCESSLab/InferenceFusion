@@ -55,7 +55,7 @@ project
 * Python with pip
 * [Pedestron](https://github.com/hasanirtiza/Pedestron)
 * [TensorFlow Model Garden](https://github.com/tensorflow/models)
-* [YOLOv5](https://github.com/ultralytics/yolov5)
+* [RetinaNet](https://github.com/fizyr/keras-retinanet)
 * [semantic-segmentation](https://github.com/sithu31296/semantic-segmentation)
 * [SharedArray](https://pypi.org/project/SharedArray/)
 ### Build Object Detection Branch 
