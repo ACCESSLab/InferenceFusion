@@ -74,7 +74,7 @@ Inference fusion can be evaluated on sample images in the following way
 ```bash
     cd fusion && ./run.sh 
 ```
-This will run pix2pixGAN and MGAN parallely. We need to ensure availability of two GPUs.
+This will run pix2pixGAN and cascade_mobilenet parallely. We need to ensure availability of two GPUs.
 In our case, we have 2 GPUs setup and the docker container uses __0__ GPUs and Pix2PixGAN 
 uses GPUs 1 such that __CUDA_VISIBLE_DEVICES=1__
 ## Dataset Pre-trained weights
@@ -82,11 +82,32 @@ uses GPUs 1 such that __CUDA_VISIBLE_DEVICES=1__
 * [Greensboro](https://bit.ly/3GpTtaS) Dataset
 * Pre-trained weights of [Faster RCNN, SSD MobileNet v1, SSD MobileNet FPN, RetinaNet](https://bit.ly/3qoFvAt) models.
 ## Evaluation 
-For benchmark and evaluation, we modify [mAP](https://github.com/Cartucho/mAP) repository.
+For benchmark and evaluation, we modify [mAP](https://github.com/Cartucho/mAP) repository and develop 
+our mAP in c++. It depends on Boost program_option and file system components.
+First, build the mAP executable 
+```bash 
+cd mAPcpp && mkdir build && cd build
+cmake .. && make 
+```
+This will create mAP executable. 
 We use following evaluation metrics 
 * mAP
 * log average miss rate
-* miss-rate vs FPPI plots. 
+
+mAP requires only two main arguments, i.e., gt and dt.
+We follow the same [input convention](https://github.com/Cartucho/mAP/tree/master/input).
+```bash 
+  --gt arg              dir for ground truth
+  --dt arg              dir for detection results
+  --iou arg (=0.5)      default iou threshold value 0.5
+  --color_out arg (=1)  default std outs are highlighted with a color
+  --class arg (=person) default class label for computing AP & MR is person
+  --ext arg (=.txt)     default extension .txt
+
+
+```
+
+
 
 ## Benchmarking 
 
