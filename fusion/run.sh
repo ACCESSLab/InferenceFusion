@@ -11,15 +11,21 @@ docker_pedestron()
 {
     # since we have to run two process in parallel, run the docker container in detach mode 
     # besides dataset here we need to map two custom scripts paths to the docker container
+    # /pedestron/data is test data direcotry 
+    # /pedestron/tools/demo_eval.py is responsible to transfer the object detector's inference to pix2pixgan using shared memory
+    # SharedDetection.py is a custom datastructure for fusing joint detection information 
+    # result_demo is the output directory of joint detection 
+    # /pedestron/pretrain_model is the object detectors' pretrained weights directory 
+    # supported detectors are cascade_hrnet, cascade_mobilenet, csp, mgan
     docker run --gpus '"device=0,1,3"'  --shm-size=8g -d --rm --name pedestron \
         --ipc=host --net=host\
-        -v "$(pwd)/detect.sh":/pedestron/detect.sh \ # is responsible for operating an object detector 
-        -v "$(pwd)/$DATASET":/pedestron/data \ # test data direcotry 
-        -v $(pwd)/demo_shm.py:/pedestron/tools/demo_eval.py \ # transfer the object detector's inference to pix2pixgan using shared memory
-        -v $(pwd)/SharedDetection.py:/pedestron/tools/SharedDetection.py \ # custom datastructure for fusing joint detection information 
-        -v $OUTDIR:/pedestron/result_demo \ # output of joint detection will be written in this direcotry 
-        -v $(pwd)/../detectors/pretrained_models:/pedestron/pretrain_model \ # object detectors' pretrained weights directory 
-        pedestron:2.1 bash -c "/pedestron/detect.sh $1" # supported detectors are cascade_hrnet, cascade_mobilenet, csp, mgan
+        -v "$(pwd)/detect.sh":/pedestron/detect.sh \
+        -v "$(pwd)/$DATASET":/pedestron/data \
+        -v $(pwd)/demo_shm.py:/pedestron/tools/demo_eval.py \
+        -v $(pwd)/SharedDetection.py:/pedestron/tools/SharedDetection.py \
+        -v $OUTDIR:/pedestron/result_demo \
+        -v $(pwd)/../detectors/pretrained_models:/pedestron/pretrain_model \
+        pedestron:2.1 bash -c "/pedestron/detect.sh $1" 
 }
 
 # this function is responsbile for running pedestrian mask segmentation branch and inference fusion  
