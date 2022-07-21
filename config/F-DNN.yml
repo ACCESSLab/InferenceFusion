@@ -1,0 +1,12 @@
+data:
+  root: '/home/redwan/Desktop/MashukBhai/InferenceFusionPaper2020/dataset/caltech/analysis/F-DNN/F-DNN'
+  folders:
+    - set06
+    - set07
+    - set08
+    - set09
+    - set10
+dirs:
+  video: "/home/redwan/Desktop/MashukBhai/InferenceFusionPaper2020/dataset/caltech/analysis/{}/{}.seq"
+  annotation: "/home/redwan/Desktop/MashukBhai/InferenceFusionPaper2020/dataset/caltech/data/annotations/{}/{}.vbb"
+  output: "results"
